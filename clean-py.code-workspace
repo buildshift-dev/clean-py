@@ -1,0 +1,128 @@
+{
+    "folders": [
+        {
+            //"name": "...optional...",
+            "path": "."
+        }
+    ],
+    "settings": {
+        "python.defaultInterpreterPath": "./.venv/bin/python",
+        "python.terminal.activateEnvironment": true,
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": true,
+        "python.linting.pylintPath": "pylint",
+        "python.linting.flake8Enabled": false,
+        "python.linting.mypyEnabled": false,
+
+        // Ruff configuration
+        "ruff.lint.enable": true,
+        "ruff.format.enable": true,
+
+        // Pyright/Pylance configuration
+        "python.analysis.typeCheckingMode": "strict",
+        "python.analysis.autoImportCompletions": true,
+        "python.analysis.diagnosticMode": "workspace",
+        "python.analysis.stubPath": "./typings",
+
+        // Hide common warnings that don't add value for DDD/Clean Architecture
+        "python.analysis.diagnosticSeverityOverrides": {
+            "reportUnnecessaryIsInstance": "none",         // Type already guaranteed by annotations
+            "reportImplicitStringConcatenation": "none",   // Handled by ruff formatting
+            "reportUnusedImport": "warning",               // Keep as warning, not error
+            "reportMissingTypeStubs": "none"               // Third-party libraries without stubs
+        },
+
+        // Pylint: Disable architectural pattern warnings (keep quality checks)
+        "python.linting.pylintArgs": [
+            // DDD/Clean Architecture patterns
+            "--disable=R0902",  // Too many instance attributes (DDD entities have rich models)
+            "--disable=R0913",  // Too many arguments (factory methods need parameters)
+            "--disable=R0917",  // Too many positional arguments (domain constructors)
+            "--disable=W0212",  // Protected access (_domain_events is intentional pattern)
+
+            // Abstract method patterns
+            "--disable=W0107",  // Unnecessary pass (abstract method implementations)
+            "--disable=W2301",  // Unnecessary ellipsis (abstract method placeholders)
+
+            // Repository/Infrastructure patterns
+            "--disable=C0415",  // Import outside toplevel (conditional imports in mappers)
+
+            // Non-code quality issues
+            "--disable=W0511",  // TODO comments (managed separately in project tracking)
+
+            // Keep these ENABLED for quality:
+            // C0301 - Line too long (now handled by 120 char limit)
+            // E0611 - Missing imports (real issues, will fix when implementing models)
+            // All other warnings that indicate actual code quality issues
+
+            "--fail-under=9.0"
+        ],
+
+        // Python formatting
+        "python.formatting.provider": "none",
+        "[python]": {
+            "editor.defaultFormatter": "charliermarsh.ruff",
+            "editor.formatOnSave": true,
+            "editor.codeActionsOnSave": {
+                "source.fixAll.ruff": "explicit",
+                "source.organizeImports.ruff": "explicit"
+            }
+        },
+
+        // File associations
+        "files.associations": {
+            "*.toml": "toml",
+            "pyrightconfig.json": "jsonc"
+        },
+
+        // Testing
+        "python.testing.pytestEnabled": true,
+        "python.testing.pytestArgs": [
+            "tests",
+            "-v",
+            "--tb=short"
+        ],
+        "python.testing.unittestEnabled": false,
+        "python.testing.nosetestsEnabled": false,
+        "python.testing.cwd": "${workspaceFolder}",
+        "python.testing.autoTestDiscoverOnSaveEnabled": true,
+
+        // Editor settings
+        "editor.rulers": [120],
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true,
+        "editor.trimAutoWhitespace": true,
+        "files.trimTrailingWhitespace": true,
+        "files.insertFinalNewline": true,
+
+        // File exclusions
+        "files.exclude": {
+            "**/__pycache__": true,
+            "**/*.pyc": true,
+            ".pytest_cache": true,
+            ".mypy_cache": true,
+            ".ruff_cache": true,
+            "**/.DS_Store": true
+        },
+
+        // Search exclusions
+        "search.exclude": {
+            "**/__pycache__": true,
+            "**/*.pyc": true,
+            ".pytest_cache": true,
+            ".mypy_cache": true,
+            ".ruff_cache": true
+        },
+        "makefile.configureOnOpen": false
+    },
+    "extensions": {
+        "recommendations": [
+            "ms-python.python",
+            "ms-python.pylint",
+            "charliermarsh.ruff",
+            "ms-python.debugpy",
+            "redhat.vscode-yaml",
+            "tamasfe.even-better-toml"
+        ]
+    }
+}

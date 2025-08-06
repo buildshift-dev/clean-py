@@ -1,0 +1,19 @@
+# Production dependencies
+# These are required for running the application in production
+
+# Web framework and server
+fastapi>=0.100.0
+uvicorn[standard]>=0.23.0
+
+# Database
+sqlalchemy>=2.0.0
+asyncpg>=0.28.0
+
+# Core dependencies
+pydantic>=2.0.0
+python-dateutil>=2.8.2
+requests>=2.31.0
+
+# Note: Streamlit is included here as it's part of the demo application
+# In a pure production API deployment, you might exclude this
+streamlit>=1.28.0
