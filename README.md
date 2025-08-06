@@ -209,7 +209,7 @@ RESTful API demonstrating the backend architecture:
 make run-api
 ```
 
-- **API Docs:** http://localhost:8000/docs
+- **API Docs:** http://localhost:8000/docs (local development)
 - **Endpoints:** `/api/v1/customers`, `/api/v1/orders`
 
 ## 🧪 Testing Strategy

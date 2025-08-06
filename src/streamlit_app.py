@@ -26,12 +26,16 @@ api_status = api.is_api_available()
 
 if api_status:
     st.sidebar.success("✅ API Connected")
-    st.sidebar.info("📡 Backend: http://localhost:8000")
-    st.sidebar.markdown("[📖 API Docs](http://localhost:8000/docs)")
+    st.sidebar.info(f"📡 Backend: {api.base_url}")
+    st.sidebar.markdown(f"[📖 API Docs]({api.base_url}/docs)")
 else:
     st.sidebar.error("❌ API Unavailable")
-    st.sidebar.warning("Start backend with: `make run-api`")
-    st.error("⚠️ **Backend API is not running!** Please start the FastAPI server to use this application.")
+    st.sidebar.info(f"📡 Trying: {api.base_url}")
+    if "localhost" in api.base_url:
+        st.sidebar.warning("Start backend with: `make run-api`")
+    else:
+        st.sidebar.warning("Backend server is not responding")
+    st.error("⚠️ **Backend API is not running!** Please check the API server status.")
     st.stop()
 
 # Navigation tabs

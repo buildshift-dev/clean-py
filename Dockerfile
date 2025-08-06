@@ -35,5 +35,8 @@ EXPOSE 8000 8501
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:8000/health || exit 1
 
+# Environment variables for local development
+ENV API_BASE_URL=http://localhost:8000
+
 # Default command runs both FastAPI and Streamlit
 CMD ["sh", "-c", "uvicorn src.presentation.main:app --host 0.0.0.0 --port 8000 & streamlit run src/streamlit_app.py --server.port 8501 --server.address 0.0.0.0 --server.headless true --server.runOnSave true --server.allowRunOnSave true"]

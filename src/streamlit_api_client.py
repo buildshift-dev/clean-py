@@ -1,5 +1,6 @@
 """API client for Streamlit to communicate with FastAPI backend."""
 
+import os
 from decimal import Decimal
 from typing import Any
 
@@ -10,7 +11,11 @@ import streamlit as st
 class APIClient:
     """Client for communicating with the FastAPI backend."""
 
-    def __init__(self, base_url: str = "http://localhost:8000") -> None:
+    def __init__(self, base_url: str | None = None) -> None:
+        if base_url is None:
+            # Try environment variable first, then fall back to localhost for development
+            base_url = os.getenv("API_BASE_URL", "http://localhost:8000")
+        
         self.base_url = base_url
         self.session = requests.Session()
         # Set timeout for all requests
