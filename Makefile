@@ -15,9 +15,15 @@ install: ## Install production dependencies only
 install-dev: ## Install development dependencies (includes production)
 	pip install -r requirements-dev.txt
 
-setup-dev: ## Setup development environment (install dev deps + editable package)
-	pip install -r requirements-dev.txt
-	pip install -e .
+setup-dev: ## Setup development environment (upgrade pip + install dev deps + editable package)
+	@echo "🔧 Setting up development environment..."
+	@echo "Upgrading pip to latest version..."
+	@python -m pip install --upgrade pip
+	@echo "Installing development dependencies..."
+	@pip install -r requirements-dev.txt
+	@echo "Installing package in editable mode..."
+	@pip install -e .
+	@echo "✅ Development environment setup complete!"
 
 lint: ## Run all linting tools
 	@echo "Running ruff..."
