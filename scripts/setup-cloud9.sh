@@ -81,6 +81,10 @@ install_python311() {
     
     if command -v python3.11 &> /dev/null; then
         print_success "Python 3.11 is already installed"
+        # Upgrade pip even if Python is already installed
+        print_status "Upgrading pip to the latest version..."
+        python3.11 -m pip install --upgrade pip
+        print_success "pip upgraded to latest version"
     else
         print_status "Installing Python 3.11..."
         # Install Python 3.11 on Amazon Linux 2023
@@ -90,6 +94,11 @@ install_python311() {
     
     # Verify installation
     python3.11 --version
+    
+    # Upgrade pip to the latest version
+    print_status "Upgrading pip to the latest version..."
+    python3.11 -m pip install --upgrade pip
+    print_success "pip upgraded to latest version"
 }
 
 # Set up Python aliases
