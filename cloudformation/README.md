@@ -78,7 +78,7 @@ docker push "${ECR_URI}:latest"
 ```bash
 aws cloudformation deploy \
     --template-file cloudformation/vpc-alb.yaml \
-    --stack-name "clean-py-dev-myapp-vpc" \
+    --stack-name "clean-py-dev-myapp-vpc-alb" \
     --parameter-overrides \
         EnvironmentName=dev \
         ApplicationName=myapp \
@@ -256,7 +256,7 @@ If you modify YAML templates locally, you can update the deployed stacks:
 # Update VPC/ALB stack
 aws cloudformation deploy \
     --template-file vpc-alb.yaml \
-    --stack-name "clean-py-dev-myapp-vpc" \
+    --stack-name "clean-py-dev-myapp-vpc-alb" \
     --parameter-overrides \
         EnvironmentName=dev \
         ApplicationName=myapp \

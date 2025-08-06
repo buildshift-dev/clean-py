@@ -114,7 +114,7 @@ cd cloudformation
 echo_info "Step 3: Deploying VPC and ALB..."
 aws cloudformation deploy \
     --template-file vpc-alb.yaml \
-    --stack-name "clean-py-$ENVIRONMENT-$APP_NAME-vpc" \
+    --stack-name "clean-py-$ENVIRONMENT-$APP_NAME-vpc-alb" \
     --parameter-overrides \
         EnvironmentName=$ENVIRONMENT \
         ApplicationName=$APP_NAME \
@@ -166,13 +166,13 @@ aws ecs update-service \
 if [ $? -eq 0 ]; then
     echo_success "Forced deployment initiated successfully"
     echo_info "Waiting for deployment to complete (this may take 2-3 minutes)..."
-    
+
     # Wait for deployment to complete
     aws ecs wait services-stable \
         --cluster "$ENVIRONMENT-$APP_NAME-cluster" \
         --services "$ENVIRONMENT-$APP_NAME-service" \
         --region $REGION
-    
+
     if [ $? -eq 0 ]; then
         echo_success "Deployment completed and services are stable"
     else
