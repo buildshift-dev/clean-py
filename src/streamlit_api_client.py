@@ -15,7 +15,7 @@ class APIClient:
         if base_url is None:
             # Try environment variable first, then fall back to localhost for development
             base_url = os.getenv("API_BASE_URL", "http://localhost:8000")
-        
+
         self.base_url = base_url
         self.session = requests.Session()
         # Set timeout for all requests

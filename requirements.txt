@@ -14,6 +14,10 @@ pydantic>=2.0.0
 python-dateutil>=2.8.2
 requests>=2.31.0
 
+# AWS and logging dependencies
+boto3>=1.28.0
+watchtower>=3.0.0
+
 # Note: Streamlit is included here as it's part of the demo application
 # In a pure production API deployment, you might exclude this
 streamlit>=1.28.0

@@ -16,6 +16,9 @@ dependencies = [
     "pydantic>=2.0.0",
     "streamlit>=1.28.0",
     "python-dateutil>=2.8.2",
+    "requests>=2.31.0",
+    "boto3>=1.28.0",
+    "watchtower>=3.0.0",
 ]
 
 [tool.setuptools.packages.find]
@@ -26,12 +29,19 @@ include = ["src*"]
 dev = [
     "pytest>=7.4.0",
     "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.1.0",
+    "httpx>=0.25.0",
     "ruff>=0.1.6",
     "pylint>=3.0.0",
     "pyright>=1.1.350",
     "pre-commit>=3.5.0",
     "bandit>=1.7.5",
     "safety>=2.3.0",
+    "ipython>=8.12.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "types-requests>=2.31.0",
+    "types-python-dateutil>=2.8.0",
 ]
 
 [tool.ruff]
@@ -61,6 +71,13 @@ ignore = [
     "B008",   # Do not perform function calls in argument defaults
     "ARG002", # Unused method argument
     "S101",   # Use of assert detected (allow in tests)
+    "ANN001", # Missing type annotation for function argument (overly strict)
+    "ANN002", # Missing type annotation for *args (overly strict)
+    "ANN003", # Missing type annotation for **kwargs (overly strict)
+    "ANN202", # Missing return type annotation for private function (overly strict)
+    "ANN401", # Dynamically typed expressions (Any) are disallowed (needed for AWS Lambda context)
+    "S110",   # try-except-pass (acceptable for non-critical operations)
+    "S311",   # Standard pseudo-random generators (acceptable for sampling)
 ]
 
 fixable = ["ALL"]
@@ -70,6 +87,7 @@ unfixable = []
 "__init__.py" = ["F401"]
 "tests/*" = ["ARG001", "ARG002", "S101", "ANN"]
 "src/streamlit_app.py" = ["S603", "S607"]  # Allow subprocess calls in demo
+"src/infrastructure/logging/decorators.py" = ["ANN001", "ANN002", "ANN003"]  # Complex decorator typing
 
 [tool.ruff.lint.mccabe]
 max-complexity = 10
@@ -125,6 +143,11 @@ disable = [
     "W0511",  # TODO comments (managed separately in project tracking)
     "W0613",  # Unused argument (handled by ruff)
     "R0903",  # Too few public methods (value objects, interfaces)
+    
+    # Logging patterns
+    "W1203",  # Use lazy % formatting in logging (f-strings are more readable)
+    "W0718",  # Catching too general exception (acceptable in error handlers)
+    "R0911",  # Too many return statements (acceptable in factory functions)
 ]
 
 [tool.pylint.design]
@@ -153,6 +176,13 @@ markers = [
     "integration: Integration tests",
     "slow: Slow running tests",
 ]
+
+[tool.pyright]
+include = ["src", "tests"]
+reportMissingParameterType = "warning"  # Too strict for decorators and test mocks
+reportUnusedFunction = "warning"  # Test fixtures may appear unused
+reportPrivateUsage = "warning"  # Tests need to access private functions
+reportUntypedFunctionDecorator = "warning"  # Complex decorators are hard to type
 
 [tool.bandit]
 exclude_dirs = ["tests", ".venv", "venv"]

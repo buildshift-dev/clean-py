@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  logging-demo-local:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - DOCKER_COMPOSE_PROJECT_NAME=clean-py-logging-demo
+      - ENVIRONMENT=local
+      - SERVICE_NAME=clean-py-demo
+    command: python examples/logging_environment_demo.py
+    volumes:
+      - .:/app
+    
+  logging-demo-aws-simulation:
+    build:
+      context: .
+      dockerfile: Dockerfile  
+    environment:
+      - ECS_CONTAINER_METADATA_URI_V4=http://169.254.170.2/v4/12345
+      - AWS_REGION=us-west-2
+      - ENVIRONMENT=staging
+      - SERVICE_NAME=clean-py-demo
+      - CLOUDWATCH_LOG_GROUP=/aws/ecs/clean-py-demo
+    command: python examples/logging_environment_demo.py
+    volumes:
+      - .:/app
